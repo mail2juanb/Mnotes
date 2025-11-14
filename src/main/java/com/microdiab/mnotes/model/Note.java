@@ -17,13 +17,13 @@ public class Note {
     @Positive(message = "patId must be a positive number")
     private Long patId;     // Clé de correspondance avec ta base SQL
 
-    @NotBlank(message = "patient name is mandatory")
+    @NotBlank(message = "patient is mandatory")
     private String patient; // Nom du patient (optionnel, selon tes besoins)
 
+    @NotBlank(message = "note is mandatory")
     private String note;    // Champ texte pour la note (supporte les retours à la ligne)
 
-
-
+    // Constructeurs
     public Note() {
     }
 
@@ -34,6 +34,7 @@ public class Note {
         this.note = note;
     }
 
+    // Getters et setters
     public String getId() {
         return id;
     }
@@ -42,19 +43,19 @@ public class Note {
         this.id = id;
     }
 
-    public @NotNull(message = "patId cannot be null") @Positive(message = "patId must be a positive number") Long getPatId() {
+    public Long getPatId() {
         return patId;
     }
 
-    public void setPatId(@NotNull(message = "patId cannot be null") @Positive(message = "patId must be a positive number") Long patId) {
+    public void setPatId(Long patId) {
         this.patId = patId;
     }
 
-    public @NotBlank(message = "patient name is mandatory") String getPatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public void setPatient(@NotBlank(message = "patient name is mandatory") String patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
     }
 
@@ -70,8 +71,7 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "id='" + id + '\'' +
-                ", patId=" + patId +
+                "patId=" + patId +
                 ", patient='" + patient + '\'' +
                 ", note='" + note + '\'' +
                 '}';

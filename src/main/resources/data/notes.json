@@ -43,10 +43,5 @@
     "patId": 4,
     "patient": "TestEarlyOnset",
     "note": "Taille, Poids, Cholestérol, Vertige et Réaction"
-  },
-  {
-    "patId": 99,
-    "patient": "Marie Martin",
-    "note": "Note pour Marie.\nAvec plusieurs lignes."
   }
 ]

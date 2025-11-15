@@ -15,10 +15,10 @@ public class Note {
 
     @NotNull(message = "patId cannot be null")
     @Positive(message = "patId must be a positive number")
-    private Long patId;     // Clé de correspondance avec ta base SQL
+    private Long patId;     // Clé de correspondance avec la base SQL
 
     @NotBlank(message = "patient is mandatory")
-    private String patient; // Nom du patient (optionnel, selon tes besoins)
+    private String patient; // Nom du patient
 
     @NotBlank(message = "note is mandatory")
     private String note;    // Champ texte pour la note (supporte les retours à la ligne)

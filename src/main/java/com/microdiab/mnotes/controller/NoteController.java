@@ -24,7 +24,7 @@ public class NoteController {
     }
 
     // Récupère toutes les notes pour un patId
-    @GetMapping("/patient/{patId}")
+    @GetMapping("/notes/{patId}")
     public ResponseEntity<List<Note>> getNotesByPatId(@PathVariable Long patId) {
         List<Note> notes = noteService.getNotesByPatId(patId);
         return ResponseEntity.ok(notes);

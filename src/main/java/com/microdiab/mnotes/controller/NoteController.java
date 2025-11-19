@@ -3,6 +3,8 @@ package com.microdiab.mnotes.controller;
 import com.microdiab.mnotes.model.Note;
 import com.microdiab.mnotes.service.NoteService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +15,18 @@ import java.util.Optional;
 @RestController
 public class NoteController {
 
+    private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
+
     @Autowired
     private NoteService noteService;
 
-    // Crée une nouvelle note
-    @PostMapping
+    // Crée une nouvelle note pour un patId
+    @PostMapping("/notes")
     public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
+        logger.info("NOTE CONTROLLER - createNote - start...");
+        logger.info("NOTE CONTROLLER - note.patId = {} // note.patient = {} // note.note = {}", note.getPatId(), note.getPatient(), note.getPatId());
         Note savedNote = noteService.saveNote(note);
+        logger.info("NOTE CONTROLLER - createNote - end...");
         return ResponseEntity.ok(savedNote);
     }
 

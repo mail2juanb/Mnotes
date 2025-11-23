@@ -24,6 +24,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").hasRole("INTERNAL") // Seuls les utilisateurs avec le rôle INTERNAL peuvent accéder
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

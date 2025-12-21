@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +23,17 @@ public class NoteController {
 
     // Crée une nouvelle note pour un patId
     @PostMapping("/notes")
-    public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
-        logger.info("NOTE CONTROLLER - createNote - start...");
+    public ResponseEntity<?> createNote(@Valid @RequestBody Note note, BindingResult result) {
+        // ResponseEntity<?> : Permet de retourner soit le patient sauvegardé, soit une erreur.
         logger.info("NOTE CONTROLLER - note.patId = {} // note.patient = {} // note.note = {}", note.getPatId(), note.getPatient(), note.getPatId());
+
+        if (result.hasErrors()) {
+            // Retourne les erreurs de validation
+            logger.info("Note non sauvegardé, erreur de validation : {}", result.getAllErrors());
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+
         Note savedNote = noteService.saveNote(note);
-        logger.info("NOTE CONTROLLER - createNote - end...");
         return ResponseEntity.ok(savedNote);
     }
 
@@ -35,27 +42,5 @@ public class NoteController {
     public ResponseEntity<List<Note>> getNotesByPatId(@PathVariable Long patId) {
         List<Note> notes = noteService.getNotesByPatId(patId);
         return ResponseEntity.ok(notes);
-    }
-
-    // Récupère une note par son id
-    @GetMapping("/{id}")
-    public ResponseEntity<Note> getNoteById(@PathVariable String id) {
-        Optional<Note> note = noteService.getNoteById(id);
-        return note.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Supprime une note par son id
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable String id) {
-        noteService.deleteNote(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // Supprime toutes les notes pour un patId
-    @DeleteMapping("/patient/{patId}")
-    public ResponseEntity<Void> deleteNotesByPatId(@PathVariable Long patId) {
-        noteService.deleteNotesByPatId(patId);
-        return ResponseEntity.noContent().build();
     }
 }

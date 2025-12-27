@@ -15,11 +15,17 @@ public class NoteService {
 
     // Sauvegarde une note
     public Note saveNote(Note note) {
+        if (note == null) {
+            throw new IllegalArgumentException("Note cannot be null");
+        }
         return noteRepository.save(note);
     }
 
     // Récupère toutes les notes pour un patId
     public List<Note> getNotesByPatId(Long patId) {
+        if (patId == null) {
+            throw new IllegalArgumentException("patId cannot be null");
+        }
         return noteRepository.findByPatId(patId);
     }
 }

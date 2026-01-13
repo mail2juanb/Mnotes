@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microdiab.mnotes.model.Note;
 import com.microdiab.mnotes.repository.NoteRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * <em>mNotes</em> microservice, to ensure that the MongoDB database is populated with initial data
  * if it is empty or if new notes are added to the JSON file.
  */
+@Profile("!test")
 @Component
 public class JsonDataInitializer implements CommandLineRunner {
 

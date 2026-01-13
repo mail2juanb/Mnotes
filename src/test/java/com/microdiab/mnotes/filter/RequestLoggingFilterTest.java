@@ -57,6 +57,7 @@ class RequestLoggingFilterTest {
         listAppender = new ListAppender<>();
         listAppender.start();
         logger.addAppender(listAppender);
+        logger.setLevel(Level.DEBUG);
     }
 
     @Test

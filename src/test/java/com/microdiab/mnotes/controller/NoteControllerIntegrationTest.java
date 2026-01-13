@@ -7,11 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.BindingResult;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,14 +18,13 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(NoteController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class NoteControllerIntegrationTest {
 
     @Autowired
@@ -37,9 +35,6 @@ public class NoteControllerIntegrationTest {
 
     @MockitoBean
     private NoteService noteService;
-
-    @MockitoBean
-    private BindingResult bindingResult;
 
     private Note note1;
     private Note note2;
@@ -54,11 +49,10 @@ public class NoteControllerIntegrationTest {
     // Vérifie que le contrôleur retourne la note sauvegardée avec un statut 200 OK si la note est valide.
     @Test
     void createNote_shouldReturnSavedNote_whenNoteIsValid() throws Exception {
-        when(bindingResult.hasErrors()).thenReturn(false);
         when(noteService.saveNote(any(Note.class))).thenReturn(note1);
 
         mockMvc.perform(post("/notes")
-                        .with(httpBasic("username", "user"))
+                        //.with(httpBasic("username", "user"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(note1)))
                 .andExpect(status().isOk())
@@ -72,7 +66,7 @@ public class NoteControllerIntegrationTest {
         Note invalidNote = new Note("id124", 15L, "Patient 1", ""); // Note vide
 
         mockMvc.perform(post("/notes")
-                        .with(httpBasic("username", "user"))
+                        //.with(httpBasic("username", "user"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidNote)))
                 .andExpect(status().isBadRequest());
@@ -84,8 +78,8 @@ public class NoteControllerIntegrationTest {
         List<Note> notes = Arrays.asList(note1, note2);
         when(noteService.getNotesByPatId(anyLong())).thenReturn(notes);
 
-        mockMvc.perform(get("/notes/15")
-                        .with(httpBasic("username", "user")))
+        mockMvc.perform(get("/notes/15"))
+                        //.with(httpBasic("username", "user")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value("id124"))

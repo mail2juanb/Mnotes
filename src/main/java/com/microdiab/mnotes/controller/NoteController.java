@@ -2,6 +2,8 @@ package com.microdiab.mnotes.controller;
 
 import com.microdiab.mnotes.model.Note;
 import com.microdiab.mnotes.service.NoteService;
+import com.microdiab.mnotes.tracing.TracingHelper;
+import io.micrometer.tracing.annotation.NewSpan;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,8 +11,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,10 +27,11 @@ import java.util.List;
 @Tag(name = "mnotes API", description = "API for managing patient notes")
 public class NoteController {
 
-    //private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
-
     @Autowired
     private NoteService noteService;
+
+    @Autowired
+    private TracingHelper tracing;
 
 
     /**
@@ -50,17 +51,22 @@ public class NoteController {
                                     schema = @Schema(implementation = Note.class)))
     @ApiResponse(responseCode = "400", description = "Validation error")
     @PostMapping("/notes")
+    @NewSpan("mnotes-create-note")
     public ResponseEntity<?> createNote(@Valid @RequestBody Note note, BindingResult result) {
-        // ResponseEntity<?> : Permet de retourner soit le patient sauvegardé, soit une erreur.
-        //logger.info("NOTE CONTROLLER - note.patId = {} // note.patient = {} // note.note = {}", note.getPatId(), note.getPatient(), note.getPatId());
+
+        tracing.tag("endpoint", "/notes");
+        tracing.event("Creating new note");
 
         if (result.hasErrors()) {
             // Retourne les erreurs de validation
-            //logger.info("Note non sauvegardé, erreur de validation : {}", result.getAllErrors());
+            tracing.error("ValidationError", result.getAllErrors().toString());
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
 
         Note savedNote = noteService.saveNote(note);
+        tracing.tag("note.id", savedNote.getId());
+        tracing.event("Note saved successfully");
+
         return ResponseEntity.ok(savedNote);
     }
 
@@ -79,8 +85,17 @@ public class NoteController {
                  content = @Content(mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = Note.class))))
     @GetMapping("/notes/{patId}")
+    @NewSpan("mnotes-get-notes")
     public ResponseEntity<List<Note>> getNotesByPatId(@PathVariable Long patId) {
+
+        tracing.tag("endpoint", "/notes/{patId}");
+        tracing.tag("patient.id", patId);
+        tracing.event("Fetching notes for patient");
+
         List<Note> notes = noteService.getNotesByPatId(patId);
+
+        tracing.tag("note.count", notes.size());
+
         return ResponseEntity.ok(notes);
     }
 }

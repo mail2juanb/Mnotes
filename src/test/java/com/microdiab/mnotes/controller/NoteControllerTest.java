@@ -2,6 +2,7 @@ package com.microdiab.mnotes.controller;
 
 import com.microdiab.mnotes.model.Note;
 import com.microdiab.mnotes.service.NoteService;
+import com.microdiab.mnotes.tracing.TracingHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ public class NoteControllerTest {
 
     @Mock
     private BindingResult bindingResult;
+
+    @Mock
+    private TracingHelper tracing;
 
     @InjectMocks
     private NoteController noteController;

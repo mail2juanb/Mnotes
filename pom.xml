@@ -210,6 +210,7 @@
                             <excludes>
                                 <exclude>com/microdiab/mnotes/MnotesApplication*</exclude>
                                 <exclude>com/microdiab/mnotes/configuration/**</exclude>
+                                <exclude>com/microdiab/mnotes/tracing/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -227,6 +228,7 @@
                             <excludes>
                                 <exclude>com/microdiab/mnotes/MnotesApplication*</exclude>
                                 <exclude>com/microdiab/mnotes/configuration/**</exclude>
+                                <exclude>com/microdiab/mnotes/tracing/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -244,6 +246,7 @@
                             <excludes>
                                 <exclude>com/microdiab/mnotes/MnotesApplication*</exclude>
                                 <exclude>com/microdiab/mnotes/configuration/**</exclude>
+                                <exclude>com/microdiab/mnotes/tracing/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>

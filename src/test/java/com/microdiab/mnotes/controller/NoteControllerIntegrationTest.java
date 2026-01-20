@@ -3,6 +3,7 @@ package com.microdiab.mnotes.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microdiab.mnotes.model.Note;
 import com.microdiab.mnotes.service.NoteService;
+import com.microdiab.mnotes.tracing.TracingHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class NoteControllerIntegrationTest {
 
     @MockitoBean
     private NoteService noteService;
+
+    @MockitoBean
+    private TracingHelper tracing;
 
     private Note note1;
     private Note note2;

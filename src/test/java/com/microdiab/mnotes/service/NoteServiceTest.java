@@ -34,7 +34,7 @@ public class NoteServiceTest {
         note2 = new Note("2", 1001L, "Patient A", "Deuxième note pour le patient A.");
     }
 
-    // Vérifie que la méthode saveNote appelle bien noteRepository.save() et retourne la note sauvegardée.
+
     @Test
     void saveNote_shouldReturnSavedNote() {
         // Arrange
@@ -49,7 +49,7 @@ public class NoteServiceTest {
         verify(noteRepository, times(1)).save(note1);
     }
 
-    // Vérifie que la méthode getNotesByPatId retourne la liste des notes attendues pour un patId donné.
+
     @Test
     void getNotesByPatId_shouldReturnListOfNotes() {
         // Arrange
@@ -67,7 +67,7 @@ public class NoteServiceTest {
         verify(noteRepository, times(1)).findByPatId(patId);
     }
 
-    // Vérifie que la méthode retourne une liste vide si aucune note n’est trouvée pour le patId.
+
     @Test
     void getNotesByPatId_shouldReturnEmptyListWhenNoNotesFound() {
         // Arrange

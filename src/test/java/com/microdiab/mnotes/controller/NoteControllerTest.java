@@ -46,7 +46,7 @@ public class NoteControllerTest {
         note.setNote("Test Note");
     }
 
-    // Test pour la création d'une note valide
+
     @Test
     void createNote_ValidNote_ReturnsSavedNote() {
         // Arrange
@@ -62,12 +62,11 @@ public class NoteControllerTest {
         assertEquals(note, response.getBody());
     }
 
-    // Test pour la création d'une note invalide
     @Test
     void createNote_InvalidNote_ReturnsValidationErrors() {
         // Arrange
         when(bindingResult.hasErrors()).thenReturn(true);
-        ObjectError error = new ObjectError("note", "Erreur de validation");
+        ObjectError error = new ObjectError("note", "Validation error");
         when(bindingResult.getAllErrors()).thenReturn(List.of(error));
 
         // Act
@@ -79,12 +78,12 @@ public class NoteControllerTest {
         assertNotNull(response.getBody());
     }
 
-    // Test pour récupérer les notes par patId
+
     @Test
     void getNotesByPatId_ReturnsListOfNotes() {
         // Arrange
         Long patId = 1L;
-        List<Note> notes = List.of(note); // Utilisation de List.of() pour une liste immutable
+        List<Note> notes = List.of(note);
         when(noteService.getNotesByPatId(patId)).thenReturn(notes);
 
         // Act

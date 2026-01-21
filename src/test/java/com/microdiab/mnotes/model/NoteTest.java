@@ -1,21 +1,13 @@
 package com.microdiab.mnotes.model;
 
-
-import com.microdiab.mnotes.repository.NoteRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class NoteTest {
 
@@ -58,15 +50,15 @@ public class NoteTest {
     @Test
     void testGetIdAndSetId() {
         Note note = new Note();
-        // Test avec un ID valide
+        // Test with a valid ID
         note.setId("test-id-123");
         assertEquals("test-id-123", note.getId());
 
-        // Test avec un ID null
+        // Test with a null ID
         note.setId(null);
         assertNull(note.getId());
 
-        // Test avec un ID vide
+        // Test with an empty ID
         note.setId("");
         assertEquals("", note.getId());
     }
@@ -84,7 +76,6 @@ public class NoteTest {
         note.setPatId(null);
         note.setPatient(null);
         note.setNote(null);
-        // Le toString() ne doit pas lancer d'exception même si certains champs sont null
         String result = note.toString();
         assertTrue(result.contains("patId=null"));
         assertTrue(result.contains("patient='null'"));

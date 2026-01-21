@@ -50,13 +50,12 @@ public class NoteControllerIntegrationTest {
     }
 
 
-    // Vérifie que le contrôleur retourne la note sauvegardée avec un statut 200 OK si la note est valide.
+    // Verify that the controller returns the saved note with a 200 OK status if the note is valid.
     @Test
     void createNote_shouldReturnSavedNote_whenNoteIsValid() throws Exception {
         when(noteService.saveNote(any(Note.class))).thenReturn(note1);
 
         mockMvc.perform(post("/notes")
-                        //.with(httpBasic("username", "user"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(note1)))
                 .andExpect(status().isOk())
@@ -64,26 +63,24 @@ public class NoteControllerIntegrationTest {
                 .andExpect(jsonPath("$.note").value("Note du patient 1"));
     }
 
-    // Vérifie que le contrôleur retourne un statut 400 Bad Request si la note est invalide (erreurs de validation).
+    // Verifies that the controller returns a 400 Bad Request status if the note is invalid (validation errors).
     @Test
     void createNote_shouldReturnBadRequest_whenNoteIsInvalid() throws Exception {
         Note invalidNote = new Note("id124", 15L, "Patient 1", ""); // Note vide
 
         mockMvc.perform(post("/notes")
-                        //.with(httpBasic("username", "user"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidNote)))
                 .andExpect(status().isBadRequest());
     }
 
-    // Vérifie que le contrôleur retourne une liste de notes pour un patId donné, avec un statut 200 OK.
+    // Verifies that the controller returns a list of notes for a given patId, with a status of 200 OK.
     @Test
     void getNotesByPatId_shouldReturnListOfNotes() throws Exception {
         List<Note> notes = Arrays.asList(note1, note2);
         when(noteService.getNotesByPatId(anyLong())).thenReturn(notes);
 
         mockMvc.perform(get("/notes/15"))
-                        //.with(httpBasic("username", "user")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value("id124"))

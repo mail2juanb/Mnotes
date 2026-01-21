@@ -68,16 +68,16 @@ public class JsonDataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // Charge le fichier JSON depuis les ressources
+        // Load the JSON file from resources
         InputStream inputStream = new ClassPathResource("data/notes.json").getInputStream();
 
-        // Convertit le JSON en objets Note
+        // Converts JSON to Note objects
         Note[] notes = objectMapper.readValue(inputStream, Note[].class);
 
-        // Récupère toutes les notes existantes
+        // Retrieve all existing notes
         List<Note> existingNotes = noteRepository.findAll();
 
-        // Filtre les notes à ajouter (celles qui n'existent pas déjà selon patId, patient et note)
+        // Filters the notes to be added (those that do not already exist according to patId, patient, and note)
         List<Note> newNotes = Arrays.stream(notes)
                 .filter(note ->
                         existingNotes.stream()
@@ -89,12 +89,12 @@ public class JsonDataInitializer implements CommandLineRunner {
                 )
                 .toList();
 
-        // Sauvegarde uniquement les nouvelles notes
+        // Saves only new notes
         if (!newNotes.isEmpty()) {
             noteRepository.saveAll(newNotes);
-            System.out.println("Nouvelles données JSON insérées dans MongoDB : " + newNotes.size() + " notes ajoutées.");
+            System.out.println("New JSON data inserted into MongoDB : " + newNotes.size() + " added notes.");
         } else {
-            System.out.println("Aucune nouvelle note à ajouter.");
+            System.out.println("No new notes to add.");
         }
     }
 }

@@ -58,7 +58,6 @@ public class NoteController {
         tracing.event("Creating new note");
 
         if (result.hasErrors()) {
-            // Retourne les erreurs de validation
             tracing.error("ValidationError", result.getAllErrors().toString());
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }

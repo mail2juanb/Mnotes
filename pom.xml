@@ -39,7 +39,7 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- Dependances pour les contrôleurs REST : Spring MVC, Jackson, Tomcat, Spring Boot Auto-Configuration -->
+        <!-- Dependencies for REST controllers: Spring MVC, Jackson, Tomcat, Spring Boot Auto-Configuration -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -56,7 +56,7 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Actuator avec Micrometer Tracing intégré -->
+        <!-- Actuator with Micrometer Tracing integrated -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -69,20 +69,19 @@
         </dependency>
 
         <!-- TRACING -->
-        <!-- Micrometer Tracing (remplace Sleuth) -->
+        <!-- Bridge Brave for Micrometer Tracing -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
 
-        <!-- Reporter Zipkin pour envoyer les traces -->
+        <!-- Reporter Zipkin to send the tracks -->
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-reporter-brave</artifactId>
         </dependency>
 
-        <!-- LOGGING -->
-        <!-- Optionnel : pour les logs avec trace ID -->
+        <!-- Optional : for logs with trace ID -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
@@ -104,7 +103,7 @@
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>4.12.0</version>
+            <version>4.23.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -138,7 +137,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Génération de la Javadoc HTML dans target/apidocs -->
+            <!-- Generation of HTML Javadoc in target/apidocs -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -158,7 +157,7 @@
                 </executions>
             </plugin>
 
-            <!-- Plugin pour copier la Javadoc dans src/main/resources/static -->
+            <!-- Plugin to copy Javadoc into src/main/resources/static -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -188,7 +187,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.11</version>
                 <executions>
-                    <!-- Préparation de l'agent JaCoCo -->
+                    <!-- Preparation of the JaCoCo agent -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -199,7 +198,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Préparation de l'agent JaCoCo pour les tests unitaires -->
+                    <!-- Preparing the JaCoCo agent for unit testing -->
                     <execution>
                         <id>prepare-agent-unit</id>
                         <goals>
@@ -215,7 +214,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Rapport pour les tests unitaires uniquement -->
+                    <!-- Report for unit tests only -->
                     <execution>
                         <id>report-unit</id>
                         <phase>test</phase>
@@ -233,7 +232,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Rapport global (tous les tests) -->
+                    <!-- Overall report (all tests) -->
                     <execution>
                         <id>report-aggregate</id>
                         <phase>verify</phase>
@@ -253,18 +252,19 @@
                 </executions>
             </plugin>
 
-            <!--            Mockito utilise actuellement une méthode dynamique pour charger un agent Java (byte-buddy-agent),-->
-            <!--            ce qui ne sera plus autorisé par défaut dans les futures versions du JDK.-->
-            <!--            Modifie la configuration de Maven Surefire (pour les tests unitaires) dans ton pom.xml pour ajouter-->
-            <!--            Mockito comme agent JVM et désactiver le partage des classes.-->
-            <!--            Cela garantit que tes tests continueront à fonctionner avec les futures versions du JDK.-->
-            <!-- Configuration Maven Surefire pour les tests -->
+            <!-- Mockito currently uses a dynamic method to load a Java agent (byte-buddy-agent), -->
+            <!-- which will no longer be permitted by default in future versions of the JDK. -->
+            <!-- Modify the Maven Surefire configuration (for unit tests) in pom.xml to add -->
+            <!-- Mockito as a JVM agent and disable class sharing. -->
+            <!-- This ensures that tests will continue to work with future versions of the JDK. -->
+
+            <!-- Configuration Maven Surefire for tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <!-- Exclure les tests d'intégration -->
+                    <!-- Exclude integration tests -->
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
                         <exclude>**/*IT.java</exclude>
@@ -277,13 +277,11 @@
                 </configuration>
             </plugin>
 
-            <!-- Configuration Maven Failsafe pour les tests d'intégration -->
+            <!-- Maven Failsafe configuration for integration tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <!--                <version>3.2.5</version>-->
                 <configuration>
-                    <!-- Inclure uniquement les tests d'intégration -->
                     <includes>
                         <include>**/*IntegrationTest.java</include>
                         <include>**/*IT.java</include>

@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest      // Cette annotation configure un contexte Spring minimal pour les tests de couches de persistance MongoDB. Elle utilise une base de données MongoDB embarquée.
+@DataMongoTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class NoteRepositoryTest {
@@ -27,14 +27,14 @@ public class NoteRepositoryTest {
         noteRepository.deleteAll();
     }
 
-    // Vérifie que la méthode findByPatId retourne bien toutes les notes associées à un patId donné.
+
     @Test
     public void testFindByPatId_ShouldReturnNotesForGivenPatId() {
         // Arrange
         Long patId = 90L;
         Note note1 = new Note(null, patId, "Patient A", "Note 1");
         Note note2 = new Note(null, patId, "Patient A", "Note 2");
-        Note note3 = new Note(null, 92L, "Patient B", "Note 3"); // Différent patId
+        Note note3 = new Note(null, 92L, "Patient B", "Note 3");
 
         noteRepository.saveAll(List.of(note1, note2, note3));
 
@@ -49,7 +49,6 @@ public class NoteRepositoryTest {
     }
 
 
-    // Vérifie que la méthode retourne une liste vide si aucun patId ne correspond.
     @Test
     public void testFindByPatId_ShouldReturnEmptyListForNonExistentPatId() {
         // Arrange

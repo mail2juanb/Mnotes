@@ -56,11 +56,9 @@ public class CustomInfoContributor implements InfoContributor {
         Map<String, Object> appInfo = new HashMap<>();
         appInfo.put("version", environment.getProperty("info.app.version", "mnotes - Version not defined"));
         appInfo.put("description", environment.getProperty("info.app.description", "mnotes - Description not defined"));
-        //appInfo.put("documentation", environment.getProperty("info.app.documentation", "mnotes - Documentation non définie"));
         appInfo.put("documentation-swagger", environment.getProperty("info.app.documentation.swagger", "mnotes - Swagger Documentation not defined"));
         appInfo.put("documentation-javadoc", environment.getProperty("info.app.documentation.javadoc", "mnotes - Javadoc Documentation not defined"));
         appInfo.put("information", environment.getProperty("info.app.information", "mnotes - Informations not defined"));
-        // Ajout d'une info dynamique (ex: horodatage)
         appInfo.put("lastUpdated", LocalDateTime.now().toString());
 
         Map<String, Object> infoMap = new HashMap<>();

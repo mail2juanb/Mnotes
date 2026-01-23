@@ -84,13 +84,6 @@ public class NoteServiceTest {
     }
 
     @Test
-    void saveNote_shouldThrowExceptionWhenNoteIsNull() {
-        // Arrange & Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> noteService.saveNote(null));
-        verify(noteRepository, never()).save(any());
-    }
-
-    @Test
     void saveNote_shouldThrowExceptionWhenRepositoryFails() {
         // Arrange
         when(noteRepository.save(note1)).thenThrow(new DataAccessException("Database error") {});

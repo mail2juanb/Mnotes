@@ -26,7 +26,7 @@ public class Note {
      * This field is mapped as a String for compatibility with ObjectId.
      */
     @Id
-    private String id;      // Identifiant unique généré par MongoDB (ObjectId mappé en String)
+    private String id;
 
     /**
      * Patient identifier that corresponds to the patient's record in the SQL database.
@@ -34,14 +34,14 @@ public class Note {
      */
     @NotNull(message = "patId cannot be null")
     @Positive(message = "patId must be a positive number")
-    private Long patId;     // Clé de correspondance avec la base SQL
+    private Long patId;
 
     /**
      * Name of the patient associated with the note.
      * This field is mandatory and cannot be blank.
      */
     @NotBlank(message = "patient is mandatory")
-    private String patient; // Nom du patient
+    private String patient;
 
     /**
      * Content of the note.

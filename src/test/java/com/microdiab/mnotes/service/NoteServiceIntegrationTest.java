@@ -46,14 +46,6 @@ public class NoteServiceIntegrationTest {
     }
 
     @Test
-    void saveNote_shouldThrowExceptionWhenNoteIsNull() {
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            noteService.saveNote(null);
-        });
-    }
-
-    @Test
     void getNotesByPatId_shouldReturnNotesForValidPatId() {
         // Arrange
         Long patId = 100L;

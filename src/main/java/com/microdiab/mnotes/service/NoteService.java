@@ -38,9 +38,6 @@ public class NoteService {
      * @throws IllegalArgumentException If the provided note is null.
      */
     public Note saveNote(Note note) {
-        if (note == null) {
-            throw new IllegalArgumentException("Note cannot be null");
-        }
         return noteRepository.save(note);
     }
 
